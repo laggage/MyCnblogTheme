@@ -1,0 +1,115 @@
+
+@import './theme.less';
+
+/* Begin Post Title */
+
+.day .postTitle,
+.entrylistPosttitle {
+  font-size: 1.6rem;
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  padding: .6rem;
+  border-left: 2px solid @primary-color;
+  font-size: 20px;
+
+  a {
+    color: @black;
+  }
+}
+
+.day .postTitle a>*,
+.entrylistPosttitle a>* {
+  vertical-align: initial;
+}
+
+.day .postTitle:hover a,
+.entrylistPosttitle:hover a,
+.day .postTitle a:hover,
+.entrylistPosttitle a:hover {
+  color: @primary-color;
+  margin: initial;
+  transition-duration: .1s;
+}
+
+.day .postDesc {
+  margin-bottom: 1rem;
+}
+
+.day,
+.entrylistItem {
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  /* background: #EEE */
+}
+
+.entrylistItem,
+.day {
+  background: @white;
+}
+
+/* End Post Title */
+
+.postCon {
+  color: #444;
+}
+
+.postCon .c_b_p_desc,
+.entrylistPostSummary .c_b_p_desc {
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.postCon .c_b_p_desc a,
+.entrylistPostSummary .c_b_p_desc a {
+  display: inline !important;
+  text-decoration: none;
+  padding: .15rem 0;
+  color: @primary-color;
+  text-align: center;
+  display: none;
+}
+
+.postCon .c_b_p_desc a:hover,
+.entrylistPostSummary .c_b_p_desc a:hover {
+  -webkit-transition: all 500ms;
+  -moz-transition: all 500ms;
+  -ms-transition: all 500ms;
+  -o-transition: all 500ms;
+  transition: all 500ms;
+  text-decoration: underline;
+}
+
+// @media (max-width: 768px) {
+//   .postCon .c_b_p_desc a {
+//     width: 85%
+//   }
+// }
+
+.dayTitle {
+  display: block;
+  border: none;
+  font-size: 12px;
+  height: auto;
+  line-height: 1.5;
+  text-align: center;
+  width: 120px;
+  clear: both;
+  position: relative;
+  margin: 0;
+  top: initial;
+  right: initial;
+  background: transparent;
+  z-index: 999;
+  margin-bottom: 1rem;
+  padding: .3rem;
+  padding-left: 0;
+  text-align: left;
+  a,
+  a:hover {
+    width: auto;
+    color: @primary-color;
+    margin-top: 0;
+  }
+}

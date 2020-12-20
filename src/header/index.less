@@ -1,0 +1,146 @@
+@import '../theme.less';
+
+#header {
+  margin: 0;
+  padding: 0;
+}
+
+#header>*:not([custom]) {
+  display: none;
+}
+
+@height-top: 64px;
+@avatar-size: 48px;
+@avatar-border: 3px solid fade(@black, 85%);
+
+.la-header {
+  background-color: @white;
+
+  .la-header-top {
+    overflow: hidden;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .la-blog-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      span {
+        &:last-child {
+          margin-left: 8px;
+        }
+
+        a {
+          font-size: @heading-2-size;
+          color: @black;
+        }
+      }
+    }
+
+    nav {
+      span {
+        height: @height-top;
+        line-height: @height-top;
+        padding: 0 16px;
+
+        &:last-child {
+          padding-right: 0;
+        }
+
+        a {
+          color: #313131;
+          transition-duration: .2s;
+          transition-property: color;
+          font-size: 14px;
+
+          &:hover {
+            color: @primary-color;
+          }
+        }
+      }
+    }
+  }
+
+  .la-avatar {
+    border-radius: 50%;
+    border: @avatar-border;
+    width: @avatar-size;
+    height: @avatar-size;
+    object-fit: cover;
+  }
+}
+
+.la-banner {
+  background-image: url(https://minio.mytechsky.top/blog/cnblogs-dist/banner.jpg);
+  background-clip: padding-box;
+  height: 300px;
+  position: relative;
+  color: @white;
+
+  &>div {
+    background-color: fade(@black, 30%);
+    height: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+  }
+
+  .la-banner-content {
+    display: flex;
+    flex-direction: column;
+    padding-left: 24px;
+    align-items: baseline;
+  }
+
+  .la-banner-blog-sign {
+    border: 1px solid @primary-color;
+    border-radius: 15px;
+    background:@primary-color;
+    color: @white;
+    display: inline-block;
+    margin: 4px 8px 0 0;
+    padding: 0 15px;
+    letter-spacing: 0;
+    font-weight: 600;
+    font-size: 13px;
+    outline: 0;
+    text-decoration: none;
+    transition: 0.5s;
+    display: inline-block;
+    margin: 5px 0 15px;
+  }
+  .la-banner-blog-title {
+    font-weight: 500;
+    font-size: @heading-2-size;
+    font-size: 21px;
+  }
+  .la-banner-post-title {
+    .la-banner-blog-title();
+  }
+
+  .la-banner-post-published-tags {
+    display: flex;
+    flex-wrap: wrap;
+    span {
+      .la-banner-blog-sign();
+      margin-right: 4px;
+
+      a,
+      a:visited,
+      a:link,
+      a:hover {
+        color: @white;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+    }
+
+    span:last-child {
+      margin-right: 0;
+    }
+  }
+}

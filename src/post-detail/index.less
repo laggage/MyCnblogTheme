@@ -1,0 +1,119 @@
+@import './comments.less';
+
+/* Begin PostInfo */
+
+#topics .postInfo {
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--color-gray);
+  overflow-wrap: normal;
+  overflow-x: auto;
+  overflow-y: auto;
+  flex-wrap: wrap;
+
+  .postInfo-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+
+    &:not(:last-child) {
+      margin-right: .6rem;
+    }
+
+    svg {
+      margin-right: .2rem;
+    }
+  }
+}
+
+.post {
+  .postDesc {
+    display: none;
+  }
+
+  #EntryTag {
+    display: none;
+  }
+}
+
+
+/* Begin layout */
+
+
+// #main {
+//   width: 70%;
+//   margin: 3rem auto;
+//   display: grid;
+//   grid-template-columns: repeat(12, minmax(0, 1fr));
+//   column-gap: 20px;
+  
+// }
+
+#main {
+  #mainContent {
+    float: none;
+    margin: 0 auto !important;
+    width: 100%;
+  
+    .forFlow {
+      margin: 0;
+    }
+  }
+
+  #sideBar {
+    display: none;
+  }
+
+  #post_detail {
+    display: flex;
+  }
+
+  .post {
+    .postTitle,
+    .postInfo {
+      display: none;
+    }
+  }
+}
+
+// #mainContent .forFlow {
+//   margin: 0;
+// }
+
+// #sideBar {
+//   float: none;
+//   grid-row: 1;
+//   grid-column: 10 / 13;
+//   margin: 0;
+//   width: 100%;
+// }
+
+// @media screen and (max-width: 1024px) {
+//   #main {
+//     width: 95%;
+//   }
+// }
+
+// @media screen and (max-width: 768px) {
+//   #main {
+//     column-gap: 0px;
+//     row-gap: 20px;
+//   }
+
+//   #mainContent {
+//     grid-row: 1;
+//     grid-column: 2 / 12;
+//   }
+
+//   #sideBar {
+//     grid-row: 2;
+//     grid-column: 2 / 12;
+//   }
+// }
+
+
+/* End PostInfo */

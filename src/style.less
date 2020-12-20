@@ -1,0 +1,600 @@
+@import './theme.less';
+@import './pager.less';
+@import './utils.less';
+@import './post-list.less';
+
+@font-face {
+  font-family: 'iconfont';
+  /* project id 1901060 */
+  src: url('//at.alicdn.com/t/font_1901060_sul5nynlnel.eot');
+  src: url('//at.alicdn.com/t/font_1901060_sul5nynlnel.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_1901060_sul5nynlnel.woff2') format('woff2'),
+    url('//at.alicdn.com/t/font_1901060_sul5nynlnel.woff') format('woff'),
+    url('//at.alicdn.com/t/font_1901060_sul5nynlnel.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_1901060_sul5nynlnel.svg#iconfont') format('svg');
+}
+
+#top_nav {
+  display: none;
+}
+
+/* Begin Icon */
+
+.icon {
+  font-family: 'iconfont';
+}
+
+#sidebar_toptags li a::before {
+  content: "\e600";
+  font-family: "iconfont";
+  margin-right: 1px;
+}
+
+#sidebar_postcategory li a::before {
+  content: "\e633";
+  font-family: "iconfont";
+  margin-right: 1px;
+}
+
+#sidebar_recentposts li a::before {
+  content: "\e661";
+  font-family: "iconfont";
+  margin-right: 1px;
+}
+
+.liScore::before {
+  content: "\e708";
+  font-family: "iconfont";
+  margin-right: 1px;
+}
+
+.liRank::before {
+  content: "\e634";
+  font-family: "iconfont";
+  margin-right: 1px;
+}
+
+/* End Icon */
+
+#sideBar {
+  padding: 0px;
+  background: none;
+  overflow: visible;
+}
+
+#sidebar_news,
+.catListEssay,
+.catListTag,
+.catListBlogRank,
+#sidebar_postcategory,
+.catListComment,
+.catListView {
+  padding: .4rem 1.4rem;
+  margin-bottom: 1rem;
+}
+
+:root {
+  --color-primary: #5DA0C6;
+  --color-primary-highlight: #2c95ff;
+  --color-gray: #E9EAED;
+  --color-dark: #2A2A2A;
+  --color-bg: #ecf0f1;
+}
+
+body {
+  background-color: var(--color-bg) !important
+}
+
+#siteNavContainer>a {
+  text-decoration: none;
+  padding-right: 15px
+}
+
+#siteNavContainer a:hover {
+  color: @primary-color !important
+}
+
+
+.post {
+  font-family: Consolas, "微软雅黑"
+}
+
+
+
+#topics .postTitle {
+  font-size: 2.25em;
+}
+
+#topics .postTitle a {
+  color: black;
+}
+
+#topics .postTitle a:hover {
+  color: black;
+  margin-left: 0;
+}
+
+#topics .postTitle {
+  width: 100%;
+  text-align: center;
+}
+
+@media only screen and (max-width: 766px) {
+  #topics h1.postTitle {
+    width: 100%;
+  }
+}
+
+/* 
+.postCon,
+.entrylistPostSummary {
+    text-align: center
+} */
+
+
+
+
+.entrylistDescription::before {
+  content: "目录简介: ";
+}
+
+.entrylistDescription {
+  font-weight: bold;
+  font-size: 120%;
+  padding: 1rem;
+  border-radius: 3px;
+  margin: 0 20px;
+  margin-bottom: 10px;
+  color: #fff;
+  background-color: var(--color-primary);
+  text-align: center;
+}
+
+.entrylistItemPostDesc,
+.postDesc {
+  border-top: 1px solid var(--color-gray);
+  padding: 0;
+  padding-top: .3rem;
+  margin: 0 auto;
+  background: transparent
+}
+
+
+.horizontal-center {
+  margin: 0 auto;
+  display: block
+}
+
+#profile_block {
+  font-size: 15px;
+  line-height: 1.8
+}
+
+
+#p_b_follow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
+  padding: .1rem 0;
+  border: 1px solid var(--color-primary);
+  width: 100%;
+  text-align: center;
+  transition: .3s all;
+  border-radius: 3px;
+}
+
+#p_b_follow a {
+  color: var(--color-primary);
+}
+
+#p_b_follow:hover a {
+  color: #fff;
+}
+
+#p_b_follow:hover {
+  background-color: var(--color-primary);
+}
+
+#commentbox_opt>a:last-child,
+.comment_btn {
+  padding: 5px 10px;
+  border: 1px solid @primary-color;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin-top: 18px;
+  margin-left: 5px;
+  text-decoration: none;
+  color: @primary-color;
+  background: transparent;
+
+  &:hover {
+    background-color: @primary-color !important;
+  }
+}
+
+#commentbox_opt>a:last-child:hover,
+.comment_btn:hover {
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -ms-transition: all 250ms;
+  -o-transition: all 250ms;
+  transition: all 250ms;
+  color: @white;
+  background: var(--color-primary)
+}
+
+#btn_comment_submit,
+#commentbox_opt>a:last-child {
+  display: inline-block;
+  text-align: center;
+  min-width: 80px;
+  width: auto;
+  height: auto;
+  padding: 6px 10px;
+  margin: 0;
+  margin-left: 10px;
+
+  &:hover {
+    background-color: @primary-color;
+  }
+}
+
+#comment_form_container {
+  background-color: #F5F5F5;
+  margin: 28px 16px;
+}
+
+#comment_form_container .login_tips {
+  background-image: none
+}
+
+div.login_tips,
+.box-info {
+  background-color: var(--color-primary);
+  padding: 15px 8px;
+  text-align: center;
+  color: #fff;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px
+}
+
+div.login_tips a,
+.box-info a {
+  color: #fff;
+  text-decoration: none
+}
+
+#BlogPostCategory {
+  display: none;
+}
+
+div#tip_comment2+p {
+  display: none
+}
+
+p#commentbox_opt {
+  padding-bottom: 10px
+}
+
+@media screen and (max-width: 768px) {
+  input#tbCommentAuthor {
+    max-width: 180px !important
+  }
+}
+
+#commentform_title {
+  background-color: @primary-color;
+  font-weight: 300;
+  color: @white;
+  font-size: 2em;
+  padding: 15px 15px;
+}
+
+.recent_comment_author:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.recent_comment_body:last-child {
+  margin-bottom: 0;
+}
+
+.recent_comment_author:not(:last-child) {
+  padding-bottom: .6rem;
+  border-bottom: 1px solid var(--color-gray);
+}
+
+#ad_t2,
+#cnblogs_c1,
+#under_post_kb,
+#green_channel,
+#div_digg,
+#under_post_news,
+#footer,
+#author_profile_info,
+.commentbox_title_right,
+div#sidebar_postarchive,
+.ns-27d82-l-bannerSmall,
+.pn {
+  display: none
+}
+
+#comment_form_container .comment_textarea {
+  width: 98%;
+  max-height: 200px
+}
+
+
+html body del {
+  color: #5c5c5c
+}
+
+html body a:not([href]) {
+  color: inherit;
+  text-decoration: none
+}
+
+html body a {
+  color: #08c;
+  text-decoration: none
+}
+
+html body a:hover {
+  color: #00a3f5;
+  text-decoration: none
+}
+
+
+.scrollbar-style::-webkit-scrollbar {
+  width: 8px
+}
+
+.scrollbar-style::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: transparent
+}
+
+.scrollbar-style::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(150, 150, 150, .66);
+  border: 4px solid rgba(150, 150, 150, .66);
+  background-clip: content-box
+}
+
+/* Begin CustomMarkdown */
+
+.cnblogs-markdown details pre {
+  margin-top: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.cnblogs-markdown pre {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* End CustomMarkdown */
+
+
+/* Begin CommentBox */
+
+#comment_form {
+  margin-left: 0 !important;
+  clear: both;
+  margin-top: 20px;
+  background: #fff;
+}
+
+div.commentform textarea {
+  height: 150px;
+  resize: none;
+  min-height: 0 !important;
+}
+
+div.commentbox_main {
+  margin: auto;
+  margin-bottom: 1rem;
+}
+
+#commentform_title {
+  margin-bottom: 1rem;
+}
+
+/* End CommentBox */
+
+/* Begin Entry Tag */
+
+#EntryTag a:hover {
+  background-color: @primary-color;
+  color: @white;
+}
+
+/* End Entry Tag */
+
+
+#home {
+  margin-left: 0;
+  margin-top: 0;
+  margin-top: 0;
+  width: 80%;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+  width: 100%;
+}
+
+#navigator {
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  overflow-x: auto;
+}
+
+#navigator #navList {
+  float: none;
+  display: flex;
+  flex-direction: row;
+  margin: 0px !important;
+  overflow-x: auto;
+}
+
+#navigator #navList li {
+  float: none;
+  margin: 0 .6rem 0 0;
+  white-space: nowrap;
+}
+
+#navigator #navList a {
+  float: none;
+  text-align: left;
+  white-space: nowrap;
+}
+
+#navigator .blogStats {
+  float: none;
+  margin-right: 15px;
+  margin-left: .6rem;
+  white-space: nowrap;
+}
+
+.blogStats span {
+  white-space: nowrap;
+}
+
+#blogTitle {
+  display: flex;
+  align-items: center;
+  height: 72px;
+}
+
+#blogTitle h1 {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-left: .3rem;
+}
+
+#blogTitle .sign {
+  font-size: .8rem;
+  color: #757575;
+}
+
+@media screen and (max-width: 767px) {
+  #blog_nav_newpost {
+    display: initial !important;
+  }
+
+  #blog_nav_rss {
+    display: initial !important;
+  }
+}
+
+
+@media screen and (max-width: 425px) {
+  #mainContent {
+    grid-row: 1;
+    grid-column: 1 / 13;
+  }
+
+  #sideBar {
+    grid-row: 2;
+    grid-column: 1 / 13;
+  }
+}
+
+@media screen and (min-width: 2560px) {
+  body {
+    font-size: 1.2rem;
+  }
+}
+
+#topics {
+  padding: .5rem 1rem;
+  background: #fff;
+}
+
+/* End layout */
+
+
+/* Begin Avatar */
+
+.avatar img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  transition: .2s;
+  transition-property: transform;
+}
+
+.avatar img:hover {
+  transform: rotate(180deg);
+}
+
+/* End Avatar */
+
+#Header1_HeaderTitle {
+  background: url(https://cdn.pixabay.com/photo/2020/06/13/17/51/milky-way-5295160_960_720.jpg) #333;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: cover;
+  animation: 10s infinite linear animate;
+  font-size: 1.8rem;
+  font-weight: 900;
+}
+
+#Header1_HeaderTitle::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: transparent;
+  z-index: -1;
+}
+
+
+@keyframes animate {
+  0% {
+    background-position: 0;
+  }
+
+  100% {
+    background-position: -1000px 0;
+  }
+}
+
+/* Begin fixed tool bar */
+
+#fixed-toolbar {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: var(--color-primary-highlight);
+}
+
+#fixed-toolbar a:visited,
+#fixed-toolbar a:link,
+#fixed-toolbar a {
+  color: inherit;
+}
+
+
+.catalog-btn-hide {
+  display: none;
+}
+
+.catalog-btn-show {
+  display: block;
+}
+
+/* End fixed tool bar */

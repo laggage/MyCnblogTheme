@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)https://www.cnblogs.com/Laggage/p/13098439.html -->
+<html lang="zh-cn"
+      data-blockbyte-bs-uid="91591">
+<head>
+  <meta http-equiv="Content-Type"
+        content="text/html; charset=UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <meta name="referrer"
+        content="origin">
+  <meta name="description"
+        content="借助表达式树对四则运算表达式进行计算, 使用建造者模式, 策略模式等设计模式来封装算法">
+  <meta property="og:description"
+        content="借助表达式树对四则运算表达式进行计算, 使用建造者模式, 策略模式等设计模式来封装算法">
+  <meta http-equiv="Cache-Control"
+        content="no-transform">
+  <meta http-equiv="Cache-Control"
+        content="no-siteapp">
+  <meta http-equiv="X-UA-Compatible"
+        content="IE=edge">
+  <title>借助表达式树对四则运算表达式进行计算 - Laggage - 博客园</title>
+  <link id="favicon"
+        rel="shortcut icon"
+        href="https://common.cnblogs.com/favicon.svg"
+        type="image/svg+xml">
+
+  <link rel="stylesheet"
+        href="./preview-detail_files/blog-common.min.css">
+  <link id="MainCss"
+        rel="stylesheet"
+        href="./preview-detail_files/bundle-simplememory.min.css">
+
+  <link id="mobile-style"
+        media="only screen and (max-width: 767px)"
+        type="text/css"
+        rel="stylesheet"
+        href="./preview-detail_files/bundle-SimpleMemory-mobile.min.css">
+
+  <link type="application/rss+xml"
+        rel="alternate"
+        href="https://www.cnblogs.com/Laggage/rss">
+  <link type="application/rsd+xml"
+        rel="EditURI"
+        href="https://www.cnblogs.com/Laggage/rsd.xml">
+  <link type="application/wlwmanifest+xml"
+        rel="wlwmanifest"
+        href="https://www.cnblogs.com/Laggage/wlwmanifest.xml">
+  <script>
+    var currentBlogId = 492928;
+    var currentBlogApp = 'Laggage';
+    var cb_enable_mathjax = false;
+    var isLogined = true;
+    var isBlogOwner = true;
+    var skinName = 'SimpleMemory';
+    var visitorUserId = 'b60fbdda-5113-4a51-2b68-08d683bf81ab';
+  </script>
+  <script>
+    var currentPostDateAdded = '2020-06-12 11:31';
+  </script>
+  <script src="./preview-detail_files/jquery-2.2.0.min.js.下载"></script>
+  <script src="./preview-detail_files/blog-common.min.js.下载"></script>
+
+
+
+  <script id="hljs"
+          src="./preview-detail_files/highlight.min.js.下载"
+          async=""></script>
+  <script id="hljs-line-number"
+          src="./preview-detail_files/highlightjs-line-numbers.min.js.下载"
+          async=""></script>
+  <style type="text/css">
+    .hljs-ln {
+      border-collapse: collapse
+    }
+    .hljs-ln td {
+      padding: 0
+    }
+    .hljs-ln-n:before {
+      content: attr(data-line-number)
+    }
+  </style>
+  <style class="blockbyte-bs-style"
+         data-name="content">
+    body>div#blockbyte-bs-indicator>div {
+      opacity: 0;
+      pointer-events: none
+    }
+
+    body>iframe#blockbyte-bs-sidebar.blockbyte-bs-visible,
+    body>iframe#blockbyte-bs-overlay.blockbyte-bs-visible {
+      opacity: 1;
+      pointer-events: auto
+    }
+
+    body.blockbyte-bs-noscroll {
+      overflow: hidden !important
+    }
+
+    body>div#blockbyte-bs-indicator>div {
+      position: absolute;
+      transform: translate3d(-24px, 0, 0);
+      top: 0;
+      left: 0;
+      width: 24px !important;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 0 10px 10px 0;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 2
+    }
+
+    body>div#blockbyte-bs-indicator>div>span {
+      -webkit-mask: no-repeat center/24px;
+      -webkit-mask-image: url(chrome-extension://jdbnofccmhefkmjbkkdkfiicjkgofkdh/img/icon-bookmark.svg);
+      background-color: #ffffff;
+      position: absolute;
+      display: block;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%
+    }
+
+    body>div#blockbyte-bs-indicator[data-pos='right'] {
+      left: auto;
+      right: 0
+    }
+
+    body>div#blockbyte-bs-indicator[data-pos='right']>div {
+      transform: translate3d(24px, 0, 0);
+      left: auto;
+      right: 0;
+      border-radius: 10px 0 0 10px
+    }
+
+    body>div#blockbyte-bs-indicator.blockbyte-bs-fullHeight>div {
+      border-radius: 0
+    }
+
+    body>div#blockbyte-bs-indicator.blockbyte-bs-hover>div {
+      transform: translate3d(0, 0, 0);
+      opacity: 1
+    }
+
+    body>div#blockbyte-bs-indicator[data-pos='left'].blockbyte-bs-has-lsb {
+      height: 100% !important;
+      top: 0 !important
+    }
+
+    body>div#blockbyte-bs-indicator[data-pos='left'].blockbyte-bs-has-lsb>div {
+      background: transparent
+    }
+
+    body>div#blockbyte-bs-indicator[data-pos='left'].blockbyte-bs-has-lsb>div>span {
+      -webkit-mask-position-y: 20px
+    }
+
+    body>iframe#blockbyte-bs-sidebar {
+      width: 350px;
+      max-width: none;
+      height: 0;
+      z-index: 2147483646;
+      background-color: rgba(255, 255, 255, 0.8) !important;
+      speak: none;
+      border: none;
+      display: block !important;
+      transform: translate3d(-350px, 0, 0);
+      transition: width 0s 0.3s, height 0s 0.3s, opacity 0.3s, transform 0.3s
+    }
+
+    body>iframe#blockbyte-bs-sidebar[data-pos='right'] {
+      left: auto;
+      right: 0;
+      transform: translate3d(350px, 0, 0)
+    }
+
+    body>iframe#blockbyte-bs-sidebar.blockbyte-bs-visible {
+      width: calc(100% + 350px);
+      height: 100%;
+      transform: translate3d(0, 0, 0);
+      transition: opacity 0.3s, transform 0.3s
+    }
+
+    body>iframe#blockbyte-bs-sidebar.blockbyte-bs-hideMask {
+      background: none !important
+    }
+
+    body>iframe#blockbyte-bs-sidebar.blockbyte-bs-hideMask:not(.blockbyte-bs-hover) {
+      width: calc(350px + 50px)
+    }
+
+    body>iframe#blockbyte-bs-overlay {
+      width: 100%;
+      max-width: none;
+      height: 100%;
+      z-index: 2147483647;
+      border: none;
+      speak: none;
+      background: rgba(0, 0, 0, 0.5) !important;
+      transition: opacity 0.3s
+    }
+  </style>
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="page_begin_html">
+      <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+            integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+            crossorigin="anonymous">
+      <link rel="stylesheet"
+            href="./preview-detail_files/vs.css">
+
+      <link rel="stylesheet"
+            href="./dist/index.css">
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle"><span class="avatar"><img alt="avatar" src="./preview-detail_files/20201124214721(1).png"></span>
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/Laggage/"><img id="blogLogo" src="./preview-detail_files/logo.gif" alt="返回主页"></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/Laggage/">laggage</a>
+<span class="sign">Stay hungry, stay foolish</span></h1>
+
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/Laggage/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/Laggage">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/Laggage/rss/">订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 45&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 9</span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/Laggage/p/13098439.html">
+    <span>借助表达式树对四则运算表达式进行计算</span>
+    
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postInfo"><span class="postInfo-item"><svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2738" width="16" height="16"><path fill="#8a8a8a" d="M512 0C228.92 0 0 228.92 0 512c0 282.358 228.92 512 512 512s512-228.92 512-512S794.358 0 512 0m174.037 706.257l-18.054 18.053c-10.11 10.11-25.997 10.11-36.107 0L465.783 558.217c-5.777-5.777-5.055-17.331-5.055-28.886V204.367c0-14.443 11.554-25.275 25.275-25.275h25.275c14.443 0 25.275 11.554 25.275 25.275v317.02L686.037 670.15c10.11 10.11 10.11 25.997 0 36.107m0 0z" p-id="2739"></path></svg><span class="text-muted"> 2020-5-12 11:31</span></span><span class="postInfo-item"><svg t="1592845358639" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4518" width="16" height="16"><path d="M727.744 606.976c124.288 78.976 210.688 217.664 222.464 378.496-43.52 5.888-120.896 12.288-231.296 12.288H263.168c-110.4 0-187.712-6.4-231.168-12.288 11.84-160.704 98.304-299.52 222.4-378.496 65.6 51.584 147.008 83.712 236.736 83.712 89.728 0 171.2-32 236.608-83.712zM491.136 0a307.392 307.392 0 0 1 307.072 307.008 307.456 307.456 0 0 1-307.072 306.944 307.328 307.328 0 0 1-307.008-306.944A307.392 307.392 0 0 1 491.136 0z" fill="#8a8a8a" p-id="4519"></path></svg><span class="text-muted"> laggage</span></span><span class="postInfo-item"><svg t="1592845607250" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8509" width="16" height="16"><path d="M512 159.904A550.4 550.4 0 0 0 0 508.992a550.016 550.016 0 0 0 1024 0A550.4 550.4 0 0 0 512 159.904z m0 581.824a232.736 232.736 0 1 1 232.736-232.736A232.8 232.8 0 0 1 512 741.824z m0-372.352a139.648 139.648 0 1 0 139.648 139.648A139.744 139.744 0 0 0 512 369.44z" fill="#8a8a8a" p-id="8510"></path></svg><span class="text-muted"> 221</span></span><span class="postInfo-item"><svg t="1592845935911" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10051" width="16" height="16"><path d="M512 64C229.2 64 0 250.2 0 480c0 99.2 42.8 190 114 261.4C89 842.2 5.4 932 4.4 933c-4.4 4.6-5.6 11.4-3 17.4S9.6 960 16 960c132.6 0 232-63.6 281.2-102.8 65.4 24.6 138 38.8 214.8 38.8 282.8 0 512-186.2 512-416S794.8 64 512 64z" p-id="10052" fill="#8a8a8a"></path></svg><span class="text-muted"> 0</span></span></div><div class="postBody markdown-body">
+                
+    <div id="cnblogs_post_description" style="display: none">
+        借助表达式树对四则运算表达式进行计算, 使用建造者模式, 策略模式等设计模式来封装算法
+    </div>
+<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+    <p>如何计算像这样的一个算术表达式:<br>
+<code>-5+(-5)+35^3+14*(52+9)</code></p>
+<p>学过数据结构的我们知道, 这是一个中缀表达式, 我们可以先把它转成前缀或者后缀表达式, 然后计算起来就比较简单了;</p>
+<p>这里我使用后缀表达式来实现;</p>
+<h2 id="预备知识">预备知识</h2>
+<ol>
+<li>数据结构 - 二叉树</li>
+<li>设计模式 - 建造者 策略</li>
+<li>C#中的表达式树(<code>Expression</code>)</li>
+</ol>
+<h2 id="从后缀表达式生成表达式树">从后缀表达式生成表达式树</h2>
+<p><strong>后缀表达式怎么生成表达式树?</strong></p>
+<p>我参考了 <strong>&lt;&lt;数据结构与算法分析-C语言描述&gt;&gt;</strong> 中给出的一个算法来实现将后缀表达式转化成C#中的 <code>Expression</code>:</p>
+<p>遍历后缀表达式字符串数组, 判断当前是操作符还是操作数, 如果是操作数, 则构造<code>ConstantExpression</code>然后压栈, 如果是操作符, 则出两次栈, 构造一个<code>BinaryExpression</code>然后将其压栈;</p>
+<p>这里使用了建造者模式, 构建表达式树的函数放在了建造者类里面, 完整的代码地址在文末给出了;</p>
+<pre><code class="language-csharp hljs"><table class="hljs-ln"><tbody><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="1"><div class="hljs-ln-n" data-line-number="1"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="1"><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="2"><div class="hljs-ln-n" data-line-number="2"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="2"><span class="hljs-comment"><span class="hljs-doctag">///</span> 从后缀表达式生成一个表达式树</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="3"><div class="hljs-ln-n" data-line-number="3"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="3"><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="4"><div class="hljs-ln-n" data-line-number="4"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="4"><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;param name="postFix"&gt;</span>后缀表达式<span class="hljs-doctag">&lt;/param&gt;</span></span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="5"><div class="hljs-ln-n" data-line-number="5"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="5"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">BuildExpressionFromPostFix</span>(<span class="hljs-params"><span class="hljs-built_in">string</span>[] postFix</span>)</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="6"><div class="hljs-ln-n" data-line-number="6"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="6">{</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="7"><div class="hljs-ln-n" data-line-number="7"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="7">    <span class="hljs-keyword">var</span> stack = <span class="hljs-keyword">new</span> Stack&lt;Expression&gt;();</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="8"><div class="hljs-ln-n" data-line-number="8"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="8"> </td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="9"><div class="hljs-ln-n" data-line-number="9"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="9">    BinaryExpression ex;</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="10"><div class="hljs-ln-n" data-line-number="10"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="10">    Expression l, r;</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="11"><div class="hljs-ln-n" data-line-number="11"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="11">    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>;i &lt; postFix.Length;i++)</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="12"><div class="hljs-ln-n" data-line-number="12"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="12">    {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="13"><div class="hljs-ln-n" data-line-number="13"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="13">        <span class="hljs-keyword">if</span>(IsArithmetricOperator(postFix[i]))</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="14"><div class="hljs-ln-n" data-line-number="14"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="14">        {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="15"><div class="hljs-ln-n" data-line-number="15"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="15">            r = stack.Pop();</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="16"><div class="hljs-ln-n" data-line-number="16"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="16">            l = stack.Pop();</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="17"><div class="hljs-ln-n" data-line-number="17"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="17">            ex = Expression.MakeBinary(</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="18"><div class="hljs-ln-n" data-line-number="18"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="18">                ArthmetricOperatorsMapping[postFix[i][<span class="hljs-number">0</span>]],</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="19"><div class="hljs-ln-n" data-line-number="19"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="19">                l, r);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="20"><div class="hljs-ln-n" data-line-number="20"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="20"> </td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="21"><div class="hljs-ln-n" data-line-number="21"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="21">            stack.Push(ex);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="22"><div class="hljs-ln-n" data-line-number="22"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="22">        }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="23"><div class="hljs-ln-n" data-line-number="23"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="23">        <span class="hljs-keyword">else</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="24"><div class="hljs-ln-n" data-line-number="24"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="24">        {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="25"><div class="hljs-ln-n" data-line-number="25"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="25">            stack.Push(</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="26"><div class="hljs-ln-n" data-line-number="26"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="26">                Expression.Constant(</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="27"><div class="hljs-ln-n" data-line-number="27"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="27">                    <span class="hljs-built_in">double</span>.Parse(postFix[i])));</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="28"><div class="hljs-ln-n" data-line-number="28"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="28">        }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="29"><div class="hljs-ln-n" data-line-number="29"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="29">    }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="30"><div class="hljs-ln-n" data-line-number="30"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="30">    <span class="hljs-keyword">if</span> (stack.Peek() <span class="hljs-keyword">is</span> BinaryExpression binaryExpression)</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="31"><div class="hljs-ln-n" data-line-number="31"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="31">        _exprTree = binaryExpression;</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="32"><div class="hljs-ln-n" data-line-number="32"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="32">    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (stack.Peek() <span class="hljs-keyword">is</span> ConstantExpression constantExpression)</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="33"><div class="hljs-ln-n" data-line-number="33"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="33">        _exprTree = Expression.Add(constantExpression, Expression.Constant(<span class="hljs-number">0</span>d)); <span class="hljs-comment">// 单独一个表达式 5 </span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="34"><div class="hljs-ln-n" data-line-number="34"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="34">}</td></tr></tbody></table></code></pre>
+<h2 id="中缀表达式转成后缀表达式">中缀表达式转成后缀表达式</h2>
+<p>这里输入的中缀表达式是一个字符串, 输出一个字符串数组保存后缀表达式</p>
+<p><strong>&lt;&lt;数据结构与算法分析-C语言描述&gt;&gt;</strong> 这本书在栈的那一章给出了中缀表达式转后缀表达式的算法, 简单来说就是:<br>
+遇到操作数, 操作数放到结果集里面去;<br>
+遇到运算符, 判断是否要压栈, 压栈的条件是</p>
+<ol>
+<li>如果当前栈空, 则压栈</li>
+<li>栈顶的操作符优先级低于当前操作符的优先级, 则压栈<br>
+出栈的条件:</li>
+<li>栈顶元素优先级高于或等于当前操作符的优先级, 则出栈直到栈顶元素优先级低于当前操作符, 然后将当前操作符入栈;</li>
+</ol>
+<p>具体代码, 写的不好, 欢迎指正, 里面用到了建造者的成员变量, 完整代码看文末链接:</p>
+<pre><code class="language-csharp hljs"><table class="hljs-ln"><tbody><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="1"><div class="hljs-ln-n" data-line-number="1"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="1"><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="2"><div class="hljs-ln-n" data-line-number="2"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="2"><span class="hljs-comment"><span class="hljs-doctag">///</span> 构建后缀表达式</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="3"><div class="hljs-ln-n" data-line-number="3"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="3"><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="4"><div class="hljs-ln-n" data-line-number="4"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="4"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">BuildPostFixExpr</span>(<span class="hljs-params"></span>)</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="5"><div class="hljs-ln-n" data-line-number="5"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="5">{</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="6"><div class="hljs-ln-n" data-line-number="6"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="6">    <span class="hljs-keyword">if</span> (_postFixExpr == <span class="hljs-literal">null</span>)</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="7"><div class="hljs-ln-n" data-line-number="7"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="7">    {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="8"><div class="hljs-ln-n" data-line-number="8"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="8">        <span class="hljs-keyword">var</span> stack = <span class="hljs-keyword">new</span> Stack&lt;<span class="hljs-built_in">char</span>&gt;();</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="9"><div class="hljs-ln-n" data-line-number="9"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="9">        <span class="hljs-built_in">int</span> sIndex = <span class="hljs-number">0</span>;</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="10"><div class="hljs-ln-n" data-line-number="10"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="10">        <span class="hljs-keyword">var</span> list = <span class="hljs-keyword">new</span> List&lt;<span class="hljs-built_in">string</span>&gt;();</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="11"><div class="hljs-ln-n" data-line-number="11"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="11"> </td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="12"><div class="hljs-ln-n" data-line-number="12"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="12">        <span class="hljs-comment">// 表达式开头可能出现 "-" 号</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="13"><div class="hljs-ln-n" data-line-number="13"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="13">        <span class="hljs-keyword">if</span> (_expr.Length &gt; <span class="hljs-number">0</span> &amp;&amp; IsArithmetricOperator(_expr[<span class="hljs-number">0</span>]))</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="14"><div class="hljs-ln-n" data-line-number="14"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="14">            _expr = _expr.Insert(<span class="hljs-number">0</span>, <span class="hljs-string">"0"</span>);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="15"><div class="hljs-ln-n" data-line-number="15"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="15"> </td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="16"><div class="hljs-ln-n" data-line-number="16"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="16">        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i&lt; _expr.Length; i++)</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="17"><div class="hljs-ln-n" data-line-number="17"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="17">        {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="18"><div class="hljs-ln-n" data-line-number="18"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="18">            <span class="hljs-keyword">if</span> (IsArithmetricOperator(_expr[i]))</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="19"><div class="hljs-ln-n" data-line-number="19"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="19">            {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="20"><div class="hljs-ln-n" data-line-number="20"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="20">                sIndex = i + <span class="hljs-number">1</span>;</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="21"><div class="hljs-ln-n" data-line-number="21"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="21">                <span class="hljs-keyword">if</span> (stack.Count &lt;= <span class="hljs-number">0</span>)</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="22"><div class="hljs-ln-n" data-line-number="22"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="22">                {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="23"><div class="hljs-ln-n" data-line-number="23"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="23">                    stack.Push(_expr[i]);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="24"><div class="hljs-ln-n" data-line-number="24"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="24">                }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="25"><div class="hljs-ln-n" data-line-number="25"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="25">                <span class="hljs-keyword">else</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="26"><div class="hljs-ln-n" data-line-number="26"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="26">                {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="27"><div class="hljs-ln-n" data-line-number="27"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="27">                    <span class="hljs-keyword">if</span> (_expr[i] == <span class="hljs-string">')'</span>)</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="28"><div class="hljs-ln-n" data-line-number="28"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="28">                    {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="29"><div class="hljs-ln-n" data-line-number="29"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="29">                        <span class="hljs-keyword">while</span> (stack.Peek() != <span class="hljs-string">'('</span>)</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="30"><div class="hljs-ln-n" data-line-number="30"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="30">                        {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="31"><div class="hljs-ln-n" data-line-number="31"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="31">                            list.Add(stack.Pop().ToString());</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="32"><div class="hljs-ln-n" data-line-number="32"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="32">                        }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="33"><div class="hljs-ln-n" data-line-number="33"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="33">                        stack.Pop();</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="34"><div class="hljs-ln-n" data-line-number="34"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="34">                    }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="35"><div class="hljs-ln-n" data-line-number="35"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="35">                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(i+<span class="hljs-number">1</span> &lt; _expr.Length &amp;&amp; _expr[i] == <span class="hljs-string">'('</span> &amp;&amp; </td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="36"><div class="hljs-ln-n" data-line-number="36"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="36">                        _expr[i+<span class="hljs-number">1</span>] != <span class="hljs-string">'('</span> &amp;&amp; IsArithmetricOperator(_expr[i+<span class="hljs-number">1</span>]))</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="37"><div class="hljs-ln-n" data-line-number="37"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="37">                    {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="38"><div class="hljs-ln-n" data-line-number="38"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="38">                        _expr = _expr.Insert(i+<span class="hljs-number">1</span>, <span class="hljs-string">"0"</span>);   <span class="hljs-comment">// 5-(-5) 的情况</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="39"><div class="hljs-ln-n" data-line-number="39"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="39">                        stack.Push(_expr[i]);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="40"><div class="hljs-ln-n" data-line-number="40"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="40">                    }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="41"><div class="hljs-ln-n" data-line-number="41"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="41">                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (stack.Peek() != <span class="hljs-string">'('</span> &amp;&amp; ArithmetricOperatorsPriority[stack.Peek()] &gt;=</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="42"><div class="hljs-ln-n" data-line-number="42"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="42">                                ArithmetricOperatorsPriority[_expr[i]])</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="43"><div class="hljs-ln-n" data-line-number="43"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="43">                    {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="44"><div class="hljs-ln-n" data-line-number="44"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="44">                        <span class="hljs-keyword">while</span> (stack.Count &gt; <span class="hljs-number">0</span> &amp;&amp; stack.Peek() != <span class="hljs-string">'('</span> &amp;&amp; ArithmetricOperatorsPriority[stack.Peek()] &gt;=</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="45"><div class="hljs-ln-n" data-line-number="45"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="45">                                ArithmetricOperatorsPriority[_expr[i]])</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="46"><div class="hljs-ln-n" data-line-number="46"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="46">                            list.Add(stack.Pop().ToString());</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="47"><div class="hljs-ln-n" data-line-number="47"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="47">                        stack.Push(_expr[i]);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="48"><div class="hljs-ln-n" data-line-number="48"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="48">                    }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="49"><div class="hljs-ln-n" data-line-number="49"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="49">                    <span class="hljs-keyword">else</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="50"><div class="hljs-ln-n" data-line-number="50"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="50">                        stack.Push(_expr[i]);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="51"><div class="hljs-ln-n" data-line-number="51"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="51">                }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="52"><div class="hljs-ln-n" data-line-number="52"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="52">            }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="53"><div class="hljs-ln-n" data-line-number="53"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="53">            <span class="hljs-keyword">else</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="54"><div class="hljs-ln-n" data-line-number="54"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="54">            {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="55"><div class="hljs-ln-n" data-line-number="55"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="55">                <span class="hljs-keyword">if</span> ((_expr.Length &gt; i+<span class="hljs-number">1</span> &amp;&amp; IsArithmetricOperator(_expr[i+<span class="hljs-number">1</span>])) || i == _expr.Length - <span class="hljs-number">1</span>)</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="56"><div class="hljs-ln-n" data-line-number="56"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="56">                    list.Add(_expr.Substring(sIndex, i-sIndex+<span class="hljs-number">1</span>));</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="57"><div class="hljs-ln-n" data-line-number="57"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="57">            }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="58"><div class="hljs-ln-n" data-line-number="58"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="58">        }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="59"><div class="hljs-ln-n" data-line-number="59"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="59"> </td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="60"><div class="hljs-ln-n" data-line-number="60"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="60">        <span class="hljs-keyword">while</span> (stack.Count &gt; <span class="hljs-number">0</span>)</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="61"><div class="hljs-ln-n" data-line-number="61"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="61">        {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="62"><div class="hljs-ln-n" data-line-number="62"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="62">            <span class="hljs-keyword">if</span> (stack.Peek() == <span class="hljs-string">'('</span>)</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="63"><div class="hljs-ln-n" data-line-number="63"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="63">            {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="64"><div class="hljs-ln-n" data-line-number="64"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="64">                stack.Pop();</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="65"><div class="hljs-ln-n" data-line-number="65"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="65">                <span class="hljs-keyword">continue</span>;</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="66"><div class="hljs-ln-n" data-line-number="66"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="66">            }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="67"><div class="hljs-ln-n" data-line-number="67"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="67">            list.Add(stack.Pop().ToString());</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="68"><div class="hljs-ln-n" data-line-number="68"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="68">        }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="69"><div class="hljs-ln-n" data-line-number="69"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="69">        _postFixExpr = list.ToArray();</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="70"><div class="hljs-ln-n" data-line-number="70"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="70">    }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="71"><div class="hljs-ln-n" data-line-number="71"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="71">}</td></tr></tbody></table></code></pre>
+<h2 id="获得了使用expression构成的表达式树-如何计算最终结果呢">获得了使用<code>Expression</code>构成的表达式树, 如何计算最终结果呢</h2>
+<p>上面我们完成了基于<code>Expression</code>的表达式树的构建, 需要注意的是, <code>Expression</code>类是一个抽象类, 我们上面的构建的表达式树主要用到了他的两个派生类: <code>ConstantExpression</code>和<code>BinaryExpression</code>, 其中<code>BinaryExpression</code>其实就是一个二叉树节点, 而<code>ConstantExpression</code>呢, 顾名思义,就是一个保存了操作数的常量表达式;</p>
+<p>所以最终如何计算得到表达式的结果呢?</p>
+<p>有两种办法:</p>
+<p>这里的话我使用了策略模式来封装这两种方案</p>
+<p>策略接口:<code>IExpressionTreeCalculatorEngine</code></p>
+<pre><code class="language-csharp hljs"><table class="hljs-ln"><tbody><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="1"><div class="hljs-ln-n" data-line-number="1"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="1"><span class="hljs-keyword">using</span> System.Linq.Expressions;</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="2"><div class="hljs-ln-n" data-line-number="2"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="2"> </td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="3"><div class="hljs-ln-n" data-line-number="3"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="3"><span class="hljs-keyword">namespace</span> <span class="hljs-title">SimpleCalculator</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="4"><div class="hljs-ln-n" data-line-number="4"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="4">{</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="5"><div class="hljs-ln-n" data-line-number="5"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="5">    <span class="hljs-keyword">internal</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IExpressionTreeCalculatorEngine</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="6"><div class="hljs-ln-n" data-line-number="6"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="6">    {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="7"><div class="hljs-ln-n" data-line-number="7"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="7">        <span class="hljs-function"><span class="hljs-built_in">double</span> <span class="hljs-title">Calculate</span>(<span class="hljs-params">Expression expression</span>)</span>;</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="8"><div class="hljs-ln-n" data-line-number="8"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="8">    }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="9"><div class="hljs-ln-n" data-line-number="9"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="9">}</td></tr></tbody></table></code></pre>
+<h3 id="defaultcalculatorengine策略">DefaultCalculatorEngine策略</h3>
+<p>这个策略比较简单, 直接将作为参数的传递过来的表达式通过 Expression.Lambda() 生成 lambda 表达式然后编译并调用得到最终结果;</p>
+<pre><code class="language-csharp hljs"><table class="hljs-ln"><tbody><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="1"><div class="hljs-ln-n" data-line-number="1"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="1"><span class="hljs-keyword">using</span> System;</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="2"><div class="hljs-ln-n" data-line-number="2"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="2"><span class="hljs-keyword">using</span> System.Linq.Expressions;</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="3"><div class="hljs-ln-n" data-line-number="3"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="3"> </td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="4"><div class="hljs-ln-n" data-line-number="4"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="4"><span class="hljs-keyword">namespace</span> <span class="hljs-title">SimpleCalculator</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="5"><div class="hljs-ln-n" data-line-number="5"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="5">{</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="6"><div class="hljs-ln-n" data-line-number="6"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="6">    <span class="hljs-keyword">internal</span> <span class="hljs-keyword">class</span> <span class="hljs-title">DefaultCalculatorEngine</span> : <span class="hljs-title">IExpressionTreeCalculatorEngine</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="7"><div class="hljs-ln-n" data-line-number="7"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="7">    {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="8"><div class="hljs-ln-n" data-line-number="8"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="8">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-built_in">double</span> <span class="hljs-title">Calculate</span>(<span class="hljs-params">Expression expression</span>)</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="9"><div class="hljs-ln-n" data-line-number="9"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="9">        {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="10"><div class="hljs-ln-n" data-line-number="10"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="10">            Func&lt;<span class="hljs-built_in">double</span>&gt; calculate = Expression.Lambda&lt;Func&lt;<span class="hljs-built_in">double</span>&gt;&gt;(expression).Compile();</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="11"><div class="hljs-ln-n" data-line-number="11"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="11">            <span class="hljs-keyword">return</span> calculate();</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="12"><div class="hljs-ln-n" data-line-number="12"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="12">        }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="13"><div class="hljs-ln-n" data-line-number="13"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="13">    }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="14"><div class="hljs-ln-n" data-line-number="14"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="14">}</td></tr></tbody></table></code></pre>
+<h3 id="自己手动后序遍历递归求值recursionexpressiontreecalculatorengine">自己手动后序遍历递归求值(RecursionExpressionTreeCalculatorEngine)</h3>
+<pre><code class="language-csharp hljs"><table class="hljs-ln"><tbody><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="1"><div class="hljs-ln-n" data-line-number="1"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="1"><span class="hljs-keyword">using</span> System;</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="2"><div class="hljs-ln-n" data-line-number="2"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="2"><span class="hljs-keyword">using</span> System.Diagnostics;</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="3"><div class="hljs-ln-n" data-line-number="3"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="3"><span class="hljs-keyword">using</span> System.Linq.Expressions;</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="4"><div class="hljs-ln-n" data-line-number="4"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="4"> </td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="5"><div class="hljs-ln-n" data-line-number="5"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="5"><span class="hljs-keyword">namespace</span> <span class="hljs-title">SimpleCalculator</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="6"><div class="hljs-ln-n" data-line-number="6"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="6">{</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="7"><div class="hljs-ln-n" data-line-number="7"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="7">    <span class="hljs-keyword">internal</span> <span class="hljs-keyword">sealed</span> <span class="hljs-keyword">class</span> <span class="hljs-title">RecursionExpressionTreeCalculatorEngine</span> : <span class="hljs-title">ExpressionVisitor</span>,<span class="hljs-title">IExpressionTreeCalculatorEngine</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="8"><div class="hljs-ln-n" data-line-number="8"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="8">    {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="9"><div class="hljs-ln-n" data-line-number="9"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="9"> </td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="10"><div class="hljs-ln-n" data-line-number="10"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="10">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-built_in">double</span> <span class="hljs-title">Calculate</span>(<span class="hljs-params">Expression expression</span>)</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="11"><div class="hljs-ln-n" data-line-number="11"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="11">        {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="12"><div class="hljs-ln-n" data-line-number="12"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="12">            Expression exp = Visit(expression);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="13"><div class="hljs-ln-n" data-line-number="13"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="13">            <span class="hljs-keyword">var</span> constant = exp <span class="hljs-keyword">as</span> ConstantExpression;</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="14"><div class="hljs-ln-n" data-line-number="14"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="14">            <span class="hljs-keyword">return</span> (<span class="hljs-built_in">double</span>)constant.Value;</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="15"><div class="hljs-ln-n" data-line-number="15"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="15">        }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="16"><div class="hljs-ln-n" data-line-number="16"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="16"> </td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="17"><div class="hljs-ln-n" data-line-number="17"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="17">        <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> Expression <span class="hljs-title">VisitBinary</span>(<span class="hljs-params">BinaryExpression node</span>)</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="18"><div class="hljs-ln-n" data-line-number="18"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="18">        {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="19"><div class="hljs-ln-n" data-line-number="19"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="19">            Expression l = Visit(node.Left);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="20"><div class="hljs-ln-n" data-line-number="20"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="20">            Expression r = Visit(node.Right);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="21"><div class="hljs-ln-n" data-line-number="21"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="21">            </td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="22"><div class="hljs-ln-n" data-line-number="22"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="22">            <span class="hljs-keyword">if</span> (l <span class="hljs-keyword">is</span> ConstantExpression cl &amp;&amp; r <span class="hljs-keyword">is</span> ConstantExpression cr)</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="23"><div class="hljs-ln-n" data-line-number="23"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="23">                <span class="hljs-keyword">switch</span> (node.NodeType)</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="24"><div class="hljs-ln-n" data-line-number="24"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="24">                {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="25"><div class="hljs-ln-n" data-line-number="25"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="25">                    <span class="hljs-keyword">case</span> ExpressionType.Add:</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="26"><div class="hljs-ln-n" data-line-number="26"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="26">                        Debug.Write(<span class="hljs-string">$"(+<span class="hljs-subst">{cl.Value}</span> <span class="hljs-subst">{cr.Value}</span>)"</span>);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="27"><div class="hljs-ln-n" data-line-number="27"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="27">                        <span class="hljs-keyword">return</span> Expression.Constant((<span class="hljs-built_in">double</span>)cl.Value+(<span class="hljs-built_in">double</span>)cr.Value);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="28"><div class="hljs-ln-n" data-line-number="28"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="28">                    <span class="hljs-keyword">case</span> ExpressionType.Divide:</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="29"><div class="hljs-ln-n" data-line-number="29"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="29">                        Debug.Write(<span class="hljs-string">$"(/<span class="hljs-subst">{cl.Value}</span> <span class="hljs-subst">{cr.Value}</span>)"</span>);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="30"><div class="hljs-ln-n" data-line-number="30"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="30">                        <span class="hljs-keyword">return</span> Expression.Constant((<span class="hljs-built_in">double</span>)cl.Value/(<span class="hljs-built_in">double</span>)cr.Value);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="31"><div class="hljs-ln-n" data-line-number="31"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="31">                    <span class="hljs-keyword">case</span> ExpressionType.Subtract:</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="32"><div class="hljs-ln-n" data-line-number="32"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="32">                        Debug.Write(<span class="hljs-string">$"(-<span class="hljs-subst">{cl.Value}</span> <span class="hljs-subst">{cr.Value}</span>)"</span>);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="33"><div class="hljs-ln-n" data-line-number="33"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="33">                        <span class="hljs-keyword">return</span> Expression.Constant((<span class="hljs-built_in">double</span>)cl.Value-(<span class="hljs-built_in">double</span>)cr.Value);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="34"><div class="hljs-ln-n" data-line-number="34"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="34">                    <span class="hljs-keyword">case</span> ExpressionType.Multiply:</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="35"><div class="hljs-ln-n" data-line-number="35"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="35">                        Debug.Write(<span class="hljs-string">$"(*<span class="hljs-subst">{cl.Value}</span> <span class="hljs-subst">{cr.Value}</span>)"</span>);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="36"><div class="hljs-ln-n" data-line-number="36"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="36">                        <span class="hljs-keyword">return</span> Expression.Constant((<span class="hljs-built_in">double</span>)cl.Value*(<span class="hljs-built_in">double</span>)cr.Value);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="37"><div class="hljs-ln-n" data-line-number="37"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="37">                    <span class="hljs-keyword">case</span> ExpressionType.PowerAssign:</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="38"><div class="hljs-ln-n" data-line-number="38"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="38">                    <span class="hljs-keyword">case</span> ExpressionType.Power:</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="39"><div class="hljs-ln-n" data-line-number="39"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="39">                        Debug.Write(<span class="hljs-string">$"(^<span class="hljs-subst">{cl.Value}</span> <span class="hljs-subst">{cr.Value}</span>)"</span>);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="40"><div class="hljs-ln-n" data-line-number="40"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="40">                        <span class="hljs-keyword">return</span> Expression.Constant(Math.Pow((<span class="hljs-built_in">double</span>)cl.Value, (<span class="hljs-built_in">double</span>)cr.Value));</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="41"><div class="hljs-ln-n" data-line-number="41"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="41">                    <span class="hljs-keyword">case</span> ExpressionType.Modulo:</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="42"><div class="hljs-ln-n" data-line-number="42"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="42">                        Debug.Write(<span class="hljs-string">$"(/<span class="hljs-subst">{cl.Value}</span> <span class="hljs-subst">{cr.Value}</span>)"</span>);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="43"><div class="hljs-ln-n" data-line-number="43"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="43">                        <span class="hljs-keyword">return</span> Expression.Constant((<span class="hljs-built_in">double</span>)cl.Value%(<span class="hljs-built_in">double</span>)cr.Value);</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="44"><div class="hljs-ln-n" data-line-number="44"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="44">                    <span class="hljs-comment">//case ExpressionType</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="45"><div class="hljs-ln-n" data-line-number="45"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="45">                    <span class="hljs-literal">default</span>:</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="46"><div class="hljs-ln-n" data-line-number="46"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="46">                        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NotSupportedException();</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="47"><div class="hljs-ln-n" data-line-number="47"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="47">                }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="48"><div class="hljs-ln-n" data-line-number="48"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="48">            <span class="hljs-keyword">else</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="49"><div class="hljs-ln-n" data-line-number="49"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="49">            {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="50"><div class="hljs-ln-n" data-line-number="50"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="50">                Debug.Write(node.ToString());</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="51"><div class="hljs-ln-n" data-line-number="51"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="51">                <span class="hljs-keyword">return</span> node;</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="52"><div class="hljs-ln-n" data-line-number="52"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="52">            }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="53"><div class="hljs-ln-n" data-line-number="53"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="53">        }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="54"><div class="hljs-ln-n" data-line-number="54"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="54"> </td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="55"><div class="hljs-ln-n" data-line-number="55"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="55">        <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> Expression <span class="hljs-title">VisitConstant</span>(<span class="hljs-params">ConstantExpression node</span>)</span></td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="56"><div class="hljs-ln-n" data-line-number="56"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="56">        {</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="57"><div class="hljs-ln-n" data-line-number="57"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="57">            <span class="hljs-keyword">return</span> node;</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="58"><div class="hljs-ln-n" data-line-number="58"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="58">        }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="59"><div class="hljs-ln-n" data-line-number="59"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="59">    }</td></tr><tr><td class="hljs-ln-line hljs-ln-numbers" data-line-number="60"><div class="hljs-ln-n" data-line-number="60"></div></td><td class="hljs-ln-line hljs-ln-code" data-line-number="60">}</td></tr></tbody></table></code></pre>
+<p>这个类通过继承 <code>ExpressionVisitor</code> 来递归遍历各个表达式节点, 类似二叉树的<strong>后序遍历</strong>;</p>
+<h2 id="查看完整代码"><a href="https://github.com/laggage/SimpleCalculator" target="_blank">查看完整代码</a></h2>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+  <div id="BlogPostCategory">
+    分类:
+    <a href="https://www.cnblogs.com/Laggage/category/1400871.html"
+       target="_blank">C#</a>
+  </div>
+  <div id="EntryTag">
+    标签:
+    <a href="https://www.cnblogs.com/Laggage/tag/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</a>, <a
+       href="https://www.cnblogs.com/Laggage/tag/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>, <a
+       href="https://www.cnblogs.com/Laggage/tag/%E8%AE%A1%E7%AE%97%E5%99%A8/">计算器</a>, <a
+       href="https://www.cnblogs.com/Laggage/tag/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>, <a
+       href="https://www.cnblogs.com/Laggage/tag/ExpressionTree/">ExpressionTree</a>, <a
+       href="https://www.cnblogs.com/Laggage/tag/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%A0%91/">表达式树</a>
+  </div>
+
+  <div id="blog_post_info">
+    <div id="green_channel">
+      <a href="javascript:void(0);"
+         id="green_channel_digg">好文要顶</a>
+      <a id="green_channel_follow"
+         onclick=""
+         href="javascript:void(0);">关注我</a>
+      <a id="green_channel_favorite"
+         onclick="AddToWz(cb_entryId);return false;"
+         href="javascript:void(0);">收藏该文</a>
+      <a id="green_channel_weibo"
+         href="javascript:void(0);"
+         title="分享至新浪微博"
+         onclick="ShareToTsina()"><img src="./preview-detail_files/icon_weibo_24.png"
+             alt=""></a>
+      <a id="green_channel_wechat"
+         href="javascript:void(0);"
+         title="分享至微信"
+         onclick="shareOnWechat()"><img src="./preview-detail_files/wechat.png"
+             alt=""></a>
+    </div>
+    <div id="author_profile">
+      <div id="author_profile_info"
+           class="author_profile_info">
+        <a href="https://home.cnblogs.com/u/Laggage/"
+           target="_blank"><img src="./preview-detail_files/20201124214721.png"
+               class="author_avatar"
+               alt=""></a>
+        <div id="author_profile_detail"
+             class="author_profile_info">
+          <a href="https://home.cnblogs.com/u/Laggage/">Laggage</a><br>
+          <a href="https://home.cnblogs.com/u/Laggage/followees/">关注 - 12</a><br>
+          <a href="https://home.cnblogs.com/u/Laggage/followers/">粉丝 - 4</a>
+        </div>
+      </div>
+      <div class="clear"></div>
+      <div id="author_profile_honor"></div>
+      <div id="author_profile_follow">
+      </div>
+    </div>
+    <div id="div_digg">
+      <div class="diggit"
+           onclick="">
+        <span class="diggnum"
+              id="digg_count">0</span>
+      </div>
+      <div class="buryit"
+           onclick="">
+        <span class="burynum"
+              id="bury_count">0</span>
+      </div>
+      <div class="clear"></div>
+      <div class="diggword"
+           id="digg_tips">
+      </div>
+    </div>
+    <script type="text/javascript">
+      currentDiggType = 0;
+    </script>
+  </div>
+  <div class="clear"></div>
+  <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/Laggage/p/13034011.html"
+       class="p_n_p_prefix">« </a> 上一篇： <a href="https://www.cnblogs.com/Laggage/p/13034011.html"
+       title="发布于 2020-06-02 21:54">二叉树遍历</a>
+    <br>
+    <a href="https://www.cnblogs.com/Laggage/p/13381991.html"
+       class="p_n_p_prefix">» </a> 下一篇： <a href="https://www.cnblogs.com/Laggage/p/13381991.html"
+       title="发布于 2020-07-26 20:52">NetCore控制台程序-使用HostService和HttpClient实现简单的定时爬虫</a>
+
+  </div>
+</div>
+            </div>
+            <div class="postDesc">posted @
+              <span id="post-date">2020-06-12 11:31</span>&nbsp;
+              <a href="https://www.cnblogs.com/Laggage/">Laggage</a>&nbsp;
+              阅读(<span id="post_view_count">221</span>)&nbsp;
+              评论(<span id="post_comment_count">0</span>)&nbsp;
+              <a href="https://www.cnblogs.com/Laggage/p/13098439.md"
+                 target="_blank">MD</a>&nbsp;
+              <a href="https://i.cnblogs.com/EditPosts.aspx?postid=13098439"
+                 rel="nofollow">编辑</a>&nbsp;
+              <a href="javascript:void(0)"
+                 onclick="AddToWz(13098439);return false;">收藏</a>
+            </div>
+            </div>
+
+
+            </div>
+            <!--end: topics 文章、评论容器-->
+            </div>
+<script src="./preview-detail_files/highlight.min.js(1).下载"></script>
+<script>markdown_highlight();</script>
+<script>
+  var allowComments = true,
+    cb_blogId = 492928,
+    cb_blogApp = 'Laggage',
+    cb_blogUserGuid = 'b60fbdda-5113-4a51-2b68-08d683bf81ab';
+  var cb_entryId = 13098439,
+    cb_entryCreatedDate = '2020-06-12 11:31',
+    cb_postType = 1;
+  updatePostStats(
+    [cb_entryId],
+    function (id, count) {
+      $("#post_view_count").text(count)
+    },
+    function (id, count) {
+      $("#post_comment_count").text(count)
+    })
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/Laggage/p/13098439.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/Laggage/p/13098439.html#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><script type="text/javascript" src="./preview-detail_files/mention.min.js.下载"></script>
+<div id="commentform_title">发表评论</div>
+<span id="tip_comment" style="color:Red"></span>
+<div class="commentbox_main comment_textarea">
+    <div class="commentbox_title">
+        <div class="commentbox_title_left">
+            <span id="btn_edit_comment" class="commentbox_tab active" title="编辑评论">编辑</span>
+            <span id="btn_preview_comment" class="commentbox_tab" title="Markdown 预览">预览</span>
+        </div>
+        <div class="commentbox_title_right">
+            <span id="ubb_bold" class="comment_icon" alt="粗体" title="添加粗体(Ctrl + B)">
+                <svg class="comment_svg" version="1.1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <g fill-rule="evenodd">
+                        <path d="m13.221 19c1.4414 0 2.5793-0.27451 3.3759-0.82353 0.92931-0.66667 1.4034-1.7059 1.4034-3.1176 0-0.94118-0.22759-1.7059-0.66379-2.2549-0.45517-0.56863-1.119-0.94118-2.0103-1.1176 0.68276-0.27451 1.1948-0.64706 1.5552-1.1569 0.36034-0.54902 0.55-1.2157 0.55-2 0-1.0588-0.36034-1.902-1.0621-2.5294-0.75862-0.66667-1.8207-1-3.1672-1h-6.2017v14h6.2207zm-0.82196-8h-3.3987v-4h3.4367c0.91139 0 1.557 0.15686 1.9747 0.47059 0.37975 0.29412 0.58861 0.78431 0.58861 1.451 0 0.72549-0.20886 1.2549-0.58861 1.5882-0.39873 0.31373-1.0633 0.4902-2.0127 0.4902zm0.52612 6h-3.9249v-4h3.9855c1.052 0 1.8208 0.16216 2.3064 0.48649 0.46532 0.32432 0.70809 0.84685 0.70809 1.5856 0 0.72072-0.3237 1.2252-0.9711 1.5495-0.50578 0.25225-1.2139 0.37838-2.104 0.37838z" fill-rule="nonzero" stroke-width=".35"></path>
+                    </g>
+                </svg>
+            </span>
+            <span id="ubb_url" class="comment_icon" title="添加链接(Ctrl + K)" alt="链接">
+                <svg class="comment_svg comment_svg_stroke" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <g fill-rule="evenodd">
+                        <g transform="translate(4 4)" fill-rule="nonzero" stroke-width=".4">
+                            <path d="m6.304 9.696c-0.288-0.288-0.512-0.608-0.704-0.992-0.16-0.32-0.032-0.704 0.288-0.864 0.32-0.16 0.704-0.032 0.864 0.288 0.128 0.224 0.256 0.448 0.448 0.64 0.928 0.928 2.432 0.928 3.36 0l3.36-3.328c0.928-0.928 0.928-2.432 0-3.36s-2.432-0.928-3.36 0l-2.272 2.272c-0.256 0.256-0.64 0.256-0.896 0-0.256-0.256-0.256-0.64 0-0.896l2.272-2.272c1.44-1.44 3.744-1.44 5.184 0 1.44 1.44 1.44 3.744 0 5.184l-3.36 3.296c-0.704 0.704-1.632 1.088-2.592 1.088-0.928 0-1.856-0.352-2.592-1.056z"></path>
+                            <path d="m3.776 15.808c-0.992 0-1.888-0.384-2.592-1.056-1.44-1.44-1.44-3.744 0-5.184l3.328-3.328c1.44-1.44 3.744-1.44 5.184 0 0.288 0.288 0.544 0.64 0.736 1.024 0.16 0.32 0 0.704-0.32 0.864-0.32 0.16-0.704 0-0.864-0.32-0.128-0.256-0.288-0.48-0.48-0.672-0.928-0.928-2.432-0.928-3.36 0l-3.296 3.328c-0.928 0.928-0.928 2.432 0 3.36 0.448 0.448 1.056 0.704 1.664 0.704 0.608 0 1.248-0.256 1.664-0.704l2.112-2.112c0.256-0.256 0.64-0.256 0.896 0s0.256 0.64 0 0.896l-2.112 2.112c-0.672 0.704-1.568 1.088-2.56 1.088z"></path>
+                        </g>
+                    </g>
+                </svg>
+            </span>
+            <span id="ubb_code" class="comment_icon" title="添加代码(Ctrl + `)" alt="代码">
+                <svg class="comment_svg comment_svg_stroke" version="1.1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <g fill-rule="evenodd">
+                        <g transform="translate(16 6)" stroke-linecap="round" stroke-width="2">
+                            <line x1=".5" x2="4.5" y1=".7" y2="6.3"></line>
+                            <line transform="translate(2.5 9.1) scale(1 -1) translate(-2.5 -9.1)" x1=".5" x2="4.5" y1="6.3" y2="11.9"></line>
+                        </g>
+                        <g transform="translate(3 6.1)" stroke-linecap="round" stroke-width="2">
+                            <line transform="translate(2.5 3.5) scale(-1 1) translate(-2.5 -3.5)" x1=".5" x2="4.5" y1=".7" y2="6.3"></line>
+                            <line transform="translate(2.5 9.1) scale(-1) translate(-2.5 -9.1)" x1=".5" x2="4.5" y1="6.3" y2="11.9"></line>
+                        </g>
+                        <path transform="translate(12 12.5) scale(1 -1) translate(-12 -12.5)" d="m10.778 7.1249c0.50008-0.11366 0.9978 0.16911 1.1643 0.64128l0.032406 0.11223 2 8.8c0.1224 0.53855-0.21496 1.0744-0.75351 1.1968-0.50008 0.11366-0.9978-0.16911-1.1643-0.64128l-0.032406-0.11223-2-8.8c-0.1224-0.53855 0.21496-1.0744 0.75351-1.1968z" fill-rule="nonzero" stroke-width=".25"></path>
+                    </g>
+                </svg>
+            </span>
+            <span id="ubb_quote" class="comment_icon" title="添加引用(Ctrl + Q)" alt="引用">
+                <svg class="comment_svg" version="1.1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <g fill-rule="evenodd">
+                        <g transform="translate(5 4)" fill-rule="nonzero" stroke-width=".25">
+                            <path d="m5.0013 15v-5.2702h-2.8008c-0.13413-3.3762 1.2004-6.2143 4.0009-8.5135l-1.2-1.2163c-3.335 2.2996-5.0013 5.8119-5.0013 10.54v4.4595h5.0013-1.285e-5zm8.7987 0v-5.2702h-2.8008c-0.13453-3.3762 1.2-6.2143 4.0009-8.5135l-1.2-1.2163c-3.335 2.2996-5.0013 5.8119-5.0013 10.54v4.4595h5.0013-1.28e-5z"></path>
+                        </g>
+                    </g>
+                </svg>
+            </span>
+            <span id="ubb_img" class="comment_icon" alt="图片" title="上传图片(Ctrl + I)">
+                <svg class="comment_svg" version="1.1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <g fill-rule="evenodd">
+                        <g transform="translate(3 3.8)" fill-rule="nonzero">
+                            <path d="m14.1 0.58235h-11.2c-1.32 0-2.4 1.0482-2.4 2.3294v10.871c0 1.2812 1.08 2.3294 2.4 2.3294h11.2c1.32 0 2.4-1.0482 2.4-2.3294v-10.871c0-1.2812-1.08-2.3294-2.4-2.3294zm0.7 13.569-3.63-3.4165 1.33-1.2909c0.21-0.20382 0.59-0.20382 0.8 0l1.6 1.5529v2.7856c0 0.13588-0.04 0.26206-0.1 0.36882zm-11.9-12.016h11.2c0.44 0 0.8 0.34941 0.8 0.77647v5.8915l-0.47-0.45618c-0.84-0.825-2.22-0.825-3.07 0l-1.35 1.3103-2.39-2.2421c-0.85-0.825-2.22-0.825-3.05-0.019412l-2.48 2.2615v-6.7456c0.01-0.42706 0.37-0.77647 0.81-0.77647zm-0.8 11.647v-1.9897l3.6-3.2806c0.21-0.20382 0.58-0.21353 0.81 0.0097059l6.43 6.0371h-10.04c-0.44 0-0.8-0.33971-0.8-0.77647z"></path>
+                            <ellipse cx="10.5" cy="6.4059" rx="1" ry="1"></ellipse>
+                        </g>
+                    </g>
+                </svg>
+            </span>
+        </div>
+    </div>
+    <div style="display:none">
+        <span id="comment_edit_id"></span>
+        <span id="span_parentcomment_id"></span>
+        <span id="span_parent_id"></span>
+        <span id="span_comment_replyto"></span>
+        <span id="span_comment_posted"></span>
+        <span id="span_current_user_id">b60fbdda-5113-4a51-2b68-08d683bf81ab</span>
+    </div>
+    <textarea id="tbCommentBody" placeholder="支持 Markdown"></textarea>
+    <div id="tbCommentBodyPreview" class="feedbackCon" style="display: none">
+        <div id="tbCommentBodyPreviewBody" class="blog_comment_body comment_preview cnblogs-markdown"></div>
+    </div>
+    <div class="commentbox_footer">
+        <a class="comment_option">Markdown 帮助</a>
+        <span id="btn_comment_options" class="comment_option">
+            <input id="ubb_auto_completion" class="inline_middle" type="checkbox">
+            <label class="inline_middle" for="ubb_auto_completion">自动补全</label>
+        </span>
+    </div>
+</div>
+<p id="commentbox_opt">
+    <input id="btn_comment_submit" type="button" class="comment_btn" title="提交评论(Ctrl + Enter)" value="提交评论">
+    <span id="span_comment_canceledit" style="display:none"><a href="javascript:void(0);" onclick="return CancelCommentEdit()">不改了</a></span>
+    <a href="javascript:void(0);" onclick="return logout();">退出</a>
+</p>
+<div id="tip_comment2" style="color:Red"></div>
+<p>[Ctrl+Enter快捷键提交]</p>
+<script>var commentEditor = initCommentEditor("tbCommentBody");</script>
+
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post">
+<div id="site_editor_opt">
+    <a href="https://www.cnblogs.com/Laggage/p/13098439.html#" onclick="">管理</a>
+    
+    <a id="audit_sitehome_pass" onclick="" style="display: none" href="javascript:void(0);">首页通过</a>
+    
+</div></div>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;"></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1592366332455-0" style="width: 468px; height: 60px;"></div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+   </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain"><div id="catalog" class="catalog-btn-show" style="left: 1189px;"><h1>本文目录</h1><ul><li><a style="display: inline-block;margin: auto 0rem;" href="https://www.cnblogs.com/Laggage/p/13098439.html#%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86">预备知识</a></li><li><a style="display: inline-block;margin: auto 0rem;" href="https://www.cnblogs.com/Laggage/p/13098439.html#%E4%BB%8E%E5%90%8E%E7%BC%80%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%94%9F%E6%88%90%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%A0%91">从后缀表达式生成表达式树</a></li><li><a style="display: inline-block;margin: auto 0rem;" href="https://www.cnblogs.com/Laggage/p/13098439.html#%E4%B8%AD%E7%BC%80%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%BD%AC%E6%88%90%E5%90%8E%E7%BC%80%E8%A1%A8%E8%BE%BE%E5%BC%8F">中缀表达式转成后缀表达式</a></li><li><a style="display: inline-block;margin: auto 0rem;" href="https://www.cnblogs.com/Laggage/p/13098439.html#%E8%8E%B7%E5%BE%97%E4%BA%86%E4%BD%BF%E7%94%A8expression%E6%9E%84%E6%88%90%E7%9A%84%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%A0%91-%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97%E6%9C%80%E7%BB%88%E7%BB%93%E6%9E%9C%E5%91%A2">获得了使用Expression构成的表达式树, 如何计算最终结果呢</a></li><li><a style="display: inline-block;margin: auto 1rem;" href="https://www.cnblogs.com/Laggage/p/13098439.html#defaultcalculatorengine%E7%AD%96%E7%95%A5">DefaultCalculatorEngine策略</a></li><li><a style="display: inline-block;margin: auto 1rem;" href="https://www.cnblogs.com/Laggage/p/13098439.html#%E8%87%AA%E5%B7%B1%E6%89%8B%E5%8A%A8%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86%E9%80%92%E5%BD%92%E6%B1%82%E5%80%BCrecursionexpressiontreecalculatorengine">自己手动后序遍历递归求值(RecursionExpressionTreeCalculatorEngine)</a></li><li><a style="display: inline-block;margin: auto 0rem;" href="https://www.cnblogs.com/Laggage/p/13098439.html#%E6%9F%A5%E7%9C%8B%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81">查看完整代码</a></li></ul></div></div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2020 Laggage
+<br><span id="poweredby">Powered by .NET 5.0.1-servicing.20575.16 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <!-- Begin 页脚html -->
+<script src="./preview-detail_files/popper.min.js.下载" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="./preview-detail_files/bootstrap.min.js.下载" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script src="./dist/index.js"></script></div><div id="fixed-toolbar"><a class="icon" href="https://www.cnblogs.com/Laggage/p/13098439.html#"></a><a id="catalogToggleBtn" href="javascript:void(0);" class="icon catalog-btn-hide"></a></div>
+
+</div>
+</body>
+</html>

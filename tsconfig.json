@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "outDir": "dist/out-tsc",
+    "target": "ES2015",
+    "lib": [
+      "DOM",
+      "ES2015"
+    ],
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+  ]
+}
